@@ -1,0 +1,18 @@
+{
+  "name": "amocrm-api",
+  "version": "1.0.0",
+  "description": "AmoCRM api client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Egor Gumenyuk <boo1ean0807@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+	  "apiapi",
+	  "amocrm"
+  ],
+  "dependencies": {
+    "apiapi": "^0.8.0"
+  }
+}
