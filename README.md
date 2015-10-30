@@ -1,6 +1,6 @@
 ## AmoCRM API client for nodejs
 
-Simplified API client for [AmoCRM](https://amocrm.ru) api.
+Simplified API client for [AmoCRM](https://amocrm.ru).
 
 ## Installation
 
@@ -11,7 +11,8 @@ npm install amocrm-api
 ## Usage
 
 ```javascript
-var amo = require('amorcm-api');
+var AmoCRM = require('amorcm-api');
+var amo = new AmoCRM('htts://your-domain.amocrm.ru');
 
 amo.auth({
 	USER_LOGIN: 'your-email@example.com',
@@ -43,7 +44,7 @@ amo.auth({
 
 ## createTask
 
-Create task and assign it to responsible user (see [official doc](https://developers.amocrm.ru/rest_api/tasks_set.php) for extended usage.
+Create task and assign it to responsible user. For extended usage see [official docs](https://developers.amocrm.ru/rest_api/tasks_set.php).
 
 ```javascript
 amo.createTask({
@@ -53,3 +54,20 @@ amo.createTask({
 	complete_till: new Date().getTime()
 });
 ```
+
+## createContact
+
+Create contact. For extended usage see [official docs](https://developers.amocrm.ru/rest_api/contacts_set.php)
+
+```javascript
+amo.createContact({
+	name: 'Вася Пупкин',
+	responsible_user_id: 540759
+}).then(function afterContactCreated (res) {
+	console.log(res.id); // created contact id
+});
+```
+
+## License
+
+MIT
