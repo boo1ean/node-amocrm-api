@@ -1,4 +1,4 @@
-var asssert = require('assert');
+var assert = require('assert');
 var ApiClient = require('apiapi');
 
 module.exports = function buildClient (baseUrl) {
@@ -8,19 +8,24 @@ module.exports = function buildClient (baseUrl) {
 		baseUrl: baseUrl,
 		methods: {
 			auth: 'post /private/api/auth.php?type=json',
+
 			getCurrentAccount: 'get /private/api/v2/json/accounts/current',
+
 			getTasksList: 'get /private/api/v2/json/tasks/list',
 			createTask: 'post /private/api/v2/json/tasks/set',
+
+			getContactsList: 'get /private/api/v2/json/contacts/list',
 			createContact: 'post /private/api/v2/json/contacts/set'
 		},
 
 		before: {
-			createTask: prepareCreateTaskRequest,
-			createContact: prepareCreateContactRequest
+			createTask: prepareCreateTask,
+			createContact: prepareCreateContact
 		},
 		parse: {
 			auth: storeAuth,
 			createTask: parseCreateTask,
+			getCurrentAccount: parseGetCurrentAccount,
 			createContact: parseCreateContact
 		}
 	});
@@ -41,28 +46,27 @@ function storeAuth (res) {
 	}
 }
 
-function prepareCreateTaskRequest (params, requestBody, opts) {
+function prepareCreateTask (params, requestBody, opts) {
 	requestBody = { request: { tasks: { add: [params] } } };
 	return [params, requestBody, opts];
 }
 
-function prepareCreateContactRequest (params, requestBody, opts) {
+function prepareCreateContact (params, requestBody, opts) {
 	requestBody = { request: { contacts: { add: [params] } } };
 	return [params, requestBody, opts];
 }
 
 function parseCreateTask (res) {
-	if (!res.data.response.tasks.add.length || res.status !== 200) {
-		throw new Error('Task is not added due to some error');
-	}
-
+	assert(res.data.response.tasks.add.length && res.status === 200, 'Task is not added due to some error');
 	return res.data.response.tasks.add[0];
 }
 
 function parseCreateContact (res) {
-	if (!res.data.response.contacts.add.length || res.status !== 200) {
-		throw new Error('Task is not added due to some error');
-	}
-
+	assert(res.data.response.contacts.add.length && res.status === 200, 'Contact is not created due to some error');
 	return res.data.response.contacts.add[0];
+}
+
+function parseGetCurrentAccount (res) {
+	assert(res.data.response.account && res.status === 200, 'Can\'t get current account info for some reason');
+	return res.data.response.account;
 }

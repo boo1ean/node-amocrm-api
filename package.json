@@ -1,6 +1,6 @@
 {
   "name": "amocrm-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AmoCRM api client",
   "main": "index.js",
   "scripts": {
@@ -9,10 +9,10 @@
   "author": "Egor Gumenyuk <boo1ean0807@gmail.com>",
   "license": "MIT",
   "keywords": [
-	  "apiapi",
-	  "amocrm"
+    "apiapi",
+    "amocrm"
   ],
   "dependencies": {
-    "apiapi": "^0.8.0"
+    "apiapi": "^1.3.0"
   }
 }
