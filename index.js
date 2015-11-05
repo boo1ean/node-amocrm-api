@@ -26,6 +26,7 @@ module.exports = function buildClient (baseUrl) {
 			auth: storeAuth,
 			createTask: parseCreateTask,
 			getCurrentAccount: parseGetCurrentAccount,
+			getContactsList: parseContactsList,
 			createContact: parseCreateContact
 		}
 	});
@@ -69,4 +70,9 @@ function parseCreateContact (res) {
 function parseGetCurrentAccount (res) {
 	assert(res.data.response.account && res.status === 200, 'Can\'t get current account info for some reason');
 	return res.data.response.account;
+}
+
+function parseContactsList (res) {
+	assert(res.data.response.contacts && res.status === 200, 'Contacts list query error');
+	return res.data.response.contacts;
 }
