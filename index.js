@@ -1,10 +1,27 @@
 var assert = require('assert');
 var ApiClient = require('apiapi');
+var request = require('axios');
+var Promise = require('bluebird');
+
+var REQUEST_DELAY = 1100;
+
+//Delay request for ~1sec
+function delayedRequest () {
+	return new Promise(function (resolve, reject) {
+		setTimeout(function callRequest () {
+
+			request.apply(request, arguments)
+				.then(resolve)
+				.catch(reject);
+
+		}, REQUEST_DELAY);
+	});
+}
 
 module.exports = function buildClient (baseUrl) {
 	assert(typeof baseUrl === 'string', 'baseUrl must be string');
 	
-	return new ApiClient({
+	var client = new ApiClient({
 		baseUrl: baseUrl,
 		methods: {
 			auth: 'post /private/api/auth.php?type=json',
@@ -30,6 +47,8 @@ module.exports = function buildClient (baseUrl) {
 			createContact: parseCreateContact
 		}
 	});
+
+	client.request = delayedRequest;
 };
 
 function storeAuth (res) {
