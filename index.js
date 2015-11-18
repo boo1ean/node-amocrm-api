@@ -7,13 +7,12 @@ var REQUEST_DELAY = 1100;
 
 //Delay request for ~1sec
 function delayedRequest () {
+	var args = arguments;
 	return new Promise(function (resolve, reject) {
 		setTimeout(function callRequest () {
-
-			request.apply(request, arguments)
+			return request.apply(request, args)
 				.then(resolve)
 				.catch(reject);
-
 		}, REQUEST_DELAY);
 	});
 }
@@ -49,6 +48,7 @@ module.exports = function buildClient (baseUrl) {
 	});
 
 	client.request = delayedRequest;
+	return client;
 };
 
 function storeAuth (res) {
