@@ -48,7 +48,8 @@ module.exports = function buildClient (baseUrl) {
 		}
 	});
 
-	client.request = delayedRequest;
+	//client.request = delayedRequest;
+	return client;
 };
 
 function storeAuth (res) {
