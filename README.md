@@ -11,7 +11,7 @@ npm install amocrm-api
 ## Usage
 
 ```javascript
-var AmoCRM = require('amorcm-api');
+var AmoCRM = require('amocrm-api');
 var amo = new AmoCRM('https://your-domain.amocrm.ru');
 
 amo.auth({
