@@ -31,7 +31,10 @@ module.exports = function buildClient (baseUrl) {
 			createTask: 'post /private/api/v2/json/tasks/set',
 
 			getContactsList: 'get /private/api/v2/json/contacts/list',
-			createContact: 'post /private/api/v2/json/contacts/set'
+			createContact: 'post /private/api/v2/json/contacts/set',
+
+			createLead: 'post /private/api/v2/json/leads/set',
+			getLeads: 'get /private/api/v2/json/leads/list'
 		},
 
 		before: {
