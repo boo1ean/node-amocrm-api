@@ -34,11 +34,11 @@ module.exports = function buildClient (baseUrl) {
 			createContact: 'post /private/api/v2/json/contacts/set'
 		},
 
-		before: {
+		transformRequest: {
 			createTask: prepareCreateTask,
 			createContact: prepareCreateContact
 		},
-		parse: {
+		transformResponse: {
 			auth: storeAuth,
 			createTask: parseCreateTask,
 			getCurrentAccount: parseGetCurrentAccount,
