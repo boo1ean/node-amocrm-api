@@ -42,6 +42,7 @@ module.exports = function buildClient (baseUrl) {
 		before: {
 			createTask: prepareCreateTask,
 			createContact: prepareCreateContact,
+			createLead: prepareCreateLead,
 			createNote: prepareCreateNote
 		},
 		parse: {
@@ -49,6 +50,7 @@ module.exports = function buildClient (baseUrl) {
 			createTask: parseCreateTask,
 			getCurrentAccount: parseGetCurrentAccount,
 			getContactsList: parseContactsList,
+			createLead: parseCreateLead,
 			createContact: parseCreateContact,
 			createNote: parseCreateNote
 		}
@@ -103,6 +105,16 @@ function parseContactsList (res) {
 	return res.data.response.contacts;
 }
 
+
+function prepareCreateLead (params, requestBody, opts) {
+	requestBody = { request: { leads: { add: [params] } } };
+	return [params, requestBody, opts];
+}
+
+function parseCreateLead (res) {
+	assert(res.data.response.leads.add.length && res.status === 200, 'Note is not added due to some error');
+	return res.data.response.leads.add[0];
+}
 
 function prepareCreateNote (params, requestBody, opts) {
 	requestBody = { request: { notes: { add: [params] } } };
