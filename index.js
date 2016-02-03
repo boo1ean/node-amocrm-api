@@ -34,19 +34,23 @@ module.exports = function buildClient (baseUrl) {
 			createContact: 'post /private/api/v2/json/contacts/set',
 
 			createLead: 'post /private/api/v2/json/leads/set',
-			getLeads: 'get /private/api/v2/json/leads/list'
+			getLeads: 'get /private/api/v2/json/leads/list',
+
+			createNote: 'post /private/api/v2/json/notes/set',
 		},
 
 		before: {
 			createTask: prepareCreateTask,
-			createContact: prepareCreateContact
+			createContact: prepareCreateContact,
+			createNote: prepareCreateNote
 		},
 		parse: {
 			auth: storeAuth,
 			createTask: parseCreateTask,
 			getCurrentAccount: parseGetCurrentAccount,
 			getContactsList: parseContactsList,
-			createContact: parseCreateContact
+			createContact: parseCreateContact,
+			createNote: parseCreateNote
 		}
 	});
 
@@ -97,4 +101,15 @@ function parseGetCurrentAccount (res) {
 function parseContactsList (res) {
 	assert(res.data.response.contacts && res.status === 200, 'Contacts list query error');
 	return res.data.response.contacts;
+}
+
+
+function prepareCreateNote (params, requestBody, opts) {
+	requestBody = { request: { notes: { add: [params] } } };
+	return [params, requestBody, opts];
+}
+
+function parseCreateNote (res) {
+	assert(res.data.response.notes.add.length && res.status === 200, 'Note is not added due to some error');
+	return res.data.response.notes.add[0];
 }
