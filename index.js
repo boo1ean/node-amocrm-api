@@ -112,7 +112,7 @@ function prepareCreateLead (params, requestBody, opts) {
 }
 
 function parseCreateLead (res) {
-	assert(res.data.response.leads.add.length && res.status === 200, 'Note is not added due to some error');
+	assert(res.data.response.leads.add.length && res.status === 200, 'Lead is not added due to some error');
 	return res.data.response.leads.add[0];
 }
 
