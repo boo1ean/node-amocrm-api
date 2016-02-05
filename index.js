@@ -39,13 +39,13 @@ module.exports = function buildClient (baseUrl) {
 			createNote: 'post /private/api/v2/json/notes/set',
 		},
 
-		before: {
+		transformRequest: {
 			createTask: prepareCreateTask,
 			createContact: prepareCreateContact,
 			createLead: prepareCreateLead,
 			createNote: prepareCreateNote
 		},
-		parse: {
+		transformResponse: {
 			auth: storeAuth,
 			createTask: parseCreateTask,
 			getCurrentAccount: parseGetCurrentAccount,
