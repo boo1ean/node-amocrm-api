@@ -30,7 +30,8 @@ module.exports = function buildClient (baseUrl) {
 			getTasksList: 'get /private/api/v2/json/tasks/list',
 			createTask: 'post /private/api/v2/json/tasks/set',
 
-			getContactsList: 'get /private/api/v2/json/contacts/list',
+			getContactsList: 'get /private/api/v2/json/contacts/list',			
+			getContactsLinks: 'get /private/api/v2/json/contacts/links',
 			createContact: 'post /private/api/v2/json/contacts/set',
 
 			createLead: 'post /private/api/v2/json/leads/set',
@@ -50,6 +51,7 @@ module.exports = function buildClient (baseUrl) {
 			createTask: parseCreateTask,
 			getCurrentAccount: parseGetCurrentAccount,
 			getContactsList: parseContactsList,
+			getContactsLinks: parseGetContactsLinks,
 			createLead: parseCreateLead,
 			createContact: parseCreateContact,
 			createNote: parseCreateNote
@@ -124,4 +126,9 @@ function prepareCreateNote (params, requestBody, opts) {
 function parseCreateNote (res) {
 	assert(res.data.response.notes.add.length && res.status === 200, 'Note is not added due to some error');
 	return res.data.response.notes.add[0];
+}
+
+function parseGetContactsLinks (res) {
+	assert(res.data.response.links.length && res.status === 200, 'Get Contacts Links due to some error');
+	return res.data.response.links;
 }
