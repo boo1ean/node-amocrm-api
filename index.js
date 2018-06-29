@@ -74,7 +74,7 @@ function storeAuth (res) {
 
 	this.headers.Cookie = cookies.map(parseCookie).join('; ');
 	return res.data;
-
+	
 	function parseCookie (cookieHeader) {
 		return cookieHeader.split(';')[0];
 	}
@@ -90,6 +90,16 @@ function prepareCreateContact (params, requestBody, opts) {
 	return [params, requestBody, opts];
 }
 
+function parseCreateContact (res) {
+	assert(res.data.response.contacts.add.length && res.status === 200, 'Contact is not created due to some error');
+	return res.data.response.contacts.add[0];
+}
+
+function parseUpdateContact (res) {
+	assert(res.data.response.contacts.update.length && res.status === 200, 'Contact is not updated due to some error');
+	return res.data.response.contacts.update[0];
+}
+
 function prepareUpdateContact (params, requestBody, opts) {
 	requestBody = { request: { contacts: { update: [params] } } };
 	return [params, requestBody, opts];
@@ -98,16 +108,6 @@ function prepareUpdateContact (params, requestBody, opts) {
 function parseCreateTask (res) {
 	assert(res.data.response.tasks.add.length && res.status === 200, 'Task is not added due to some error');
 	return res.data.response.tasks.add[0];
-}
-
-function parseCreateContact (res) {
-	assert(res.data.response.contacts.add.length && res.status === 200, 'Contact is not created due to some error');
-	return res.data.response.contacts.add[0];
-}
-
-function parseUpdateContact (res) {
-	assert(res.data.response.contacts.add.length && res.status === 200, 'Contact is not updated due to some error');
-	return res.data.response.contacts.add[0];
 }
 
 function parseGetCurrentAccount (res) {
