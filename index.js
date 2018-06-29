@@ -30,9 +30,10 @@ module.exports = function buildClient (baseUrl) {
 			getTasksList: 'get /private/api/v2/json/tasks/list',
 			createTask: 'post /private/api/v2/json/tasks/set',
 
-			getContactsList: 'get /private/api/v2/json/contacts/list',			
+			getContactsList: 'get /private/api/v2/json/contacts/list',
 			getContactsLinks: 'get /private/api/v2/json/contacts/links',
 			createContact: 'post /private/api/v2/json/contacts/set',
+			updateContact: 'post /private/api/v2/json/contacts/set',
 
 			createLead: 'post /private/api/v2/json/leads/set',
 			getLeads: 'get /private/api/v2/json/leads/list',
@@ -43,6 +44,7 @@ module.exports = function buildClient (baseUrl) {
 		transformRequest: {
 			createTask: prepareCreateTask,
 			createContact: prepareCreateContact,
+			updateContact: prepareUpdateContact,
 			createLead: prepareCreateLead,
 			createNote: prepareCreateNote
 		},
@@ -54,6 +56,7 @@ module.exports = function buildClient (baseUrl) {
 			getContactsLinks: parseGetContactsLinks,
 			createLead: parseCreateLead,
 			createContact: parseCreateContact,
+			updateContact: parseUpdateContact,
 			createNote: parseCreateNote
 		}
 	});
@@ -87,6 +90,11 @@ function prepareCreateContact (params, requestBody, opts) {
 	return [params, requestBody, opts];
 }
 
+function prepareUpdateContact (params, requestBody, opts) {
+	requestBody = { request: { contacts: { update: [params] } } };
+	return [params, requestBody, opts];
+}
+
 function parseCreateTask (res) {
 	assert(res.data.response.tasks.add.length && res.status === 200, 'Task is not added due to some error');
 	return res.data.response.tasks.add[0];
@@ -94,6 +102,11 @@ function parseCreateTask (res) {
 
 function parseCreateContact (res) {
 	assert(res.data.response.contacts.add.length && res.status === 200, 'Contact is not created due to some error');
+	return res.data.response.contacts.add[0];
+}
+
+function parseUpdateContact (res) {
+	assert(res.data.response.contacts.add.length && res.status === 200, 'Contact is not updated due to some error');
 	return res.data.response.contacts.add[0];
 }
 
