@@ -12,7 +12,10 @@ function delayedRequest () {
 		setTimeout(function callRequest () {
 			return request.apply(request, args)
 				.then(resolve)
-				.catch(reject);
+				.catch(e => {
+					console.log(JSON.stringify(e))
+					return reject
+				});
 		}, REQUEST_DELAY);
 	});
 }
@@ -38,13 +41,16 @@ module.exports = function buildClient (baseUrl) {
 			getLeads: 'get /private/api/v2/json/leads/list',
 
 			createNote: 'post /private/api/v2/json/notes/set',
+
+			createUnsorted: 'post /api/v4/leads/unsorted/forms',
 		},
 
 		transformRequest: {
 			createTask: prepareCreateTask,
 			createContact: prepareCreateContact,
 			createLead: prepareCreateLead,
-			createNote: prepareCreateNote
+			createNote: prepareCreateNote,
+			createUnsorted: prepareCreateUnsorted
 		},
 		transformResponse: {
 			auth: storeAuth,
@@ -120,6 +126,10 @@ function parseCreateLead (res) {
 
 function prepareCreateNote (params, requestBody, opts) {
 	requestBody = { request: { notes: { add: [params] } } };
+	return [params, requestBody, opts];
+}
+
+function prepareCreateUnsorted (params, requestBody, opts) {
 	return [params, requestBody, opts];
 }
 
